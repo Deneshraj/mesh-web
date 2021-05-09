@@ -1,0 +1,1 @@
+default_profile_pic_url = "https://i.stack.imgur.com/l60Hf.png"
