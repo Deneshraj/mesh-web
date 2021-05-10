@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     'authentication',
     'user',
     'chats',
-    'sockets',
 ]
 
 MIDDLEWARE = [

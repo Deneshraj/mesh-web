@@ -14,6 +14,7 @@ class User(models.Model):
     verified = models.BooleanField(default=False)
     profile_pic_url = models.TextField(max_length=255, default=None, null=True, blank=True)
     friends = models.ManyToManyField("self", blank=True, auto_created=False, editable=True)
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.username}"

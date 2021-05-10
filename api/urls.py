@@ -4,5 +4,4 @@ urlpatterns = [
     path('auth/', include('authentication.urls')),
     path('user/', include('user.urls')),
     path('chats/', include('chats.urls')),
-    path('socket/', include('sockets.urls')),
 ]   
