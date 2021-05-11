@@ -22,8 +22,3 @@ class Chat(models.Model):
             'to_user': self.to_user.to_dict(),
             'dateCreated': self.date_created,
         }
-
-class SocketConn(models.Model):
-    id = models.BigIntegerField(required=True)
-    from_user = models.ForeignKey(User, null = False, related_name="from_user", on_delete=models.CASCADE)
-    to_user = models.ForeignKey(User, null=False, related_name="to_user", on_delete=models.CASCADE)

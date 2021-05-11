@@ -42,11 +42,19 @@ def add_chat(request, *args, **kwargs):
         if from_user != None and to_user != None:
             chat = Chat(message=message, from_user=from_user, to_user=to_user)
             chat.save()
-            return JsonResponse({ 'chat': chat.to_dict() })
-        
-        return JsonResponse({'msg': "Invalid Data"}, status=400)
+            
+            response = {
+                'chat': chat.to_dict()
+            }
+
+            if to_user.active and (to_user.socket_id != None or len(to_user.socket_id) > 0):
+                response['sid'] = to_user.socket_id
+                response['active'] = True
+
+            return JsonResponse(response)
     except Exception as e:
         print(e)
-        return JsonResponse({
-            'msg': "Invalid Data"
-        }, status=400)
+    
+    return JsonResponse({
+        'msg': "Invalid Data"
+    }, status=400)

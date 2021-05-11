@@ -54,6 +54,9 @@ def authorize(function):
                 if len(token) == 2 and token[0] == "Bearer":
                     isValid, user = verify_token(token[1])
                     if isValid:
+                        if not user.active:
+                            user.active = True
+                            user.save()
                         request.user = user
                         return function(request, *args, **kwargs)
                     else:

@@ -1,8 +1,10 @@
+import json
+
 from django.http import JsonResponse
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from .models import User
-from utils.decorators import authorize, get_req
+from utils.decorators import authorize, get_req, post_req
 from chats.models import Chat
 
 @csrf_exempt
@@ -24,3 +26,47 @@ def get_friends(request, *args, **kwargs):
     return JsonResponse({
         "friends": ret_friends,
     })
+
+@csrf_exempt
+@authorize
+@post_req
+def set_socket_id(request, *args, **kwargs):
+    try:
+        body = json.loads(request.body)
+        sid = body['sid']
+        request.user.socket_id = sid
+        request.user.save()
+
+        return JsonResponse({
+            'msg': "Success"
+        })
+    except Exception as e:
+        print(e)
+
+    
+    return JsonResponse({
+        'msg': "Invalid Data"
+    }, status=400)
+
+@csrf_exempt
+@authorize
+@post_req
+def inactive(request, *args, **kwargs):
+    try:
+        body = json.loads(request.body)
+        sid = body['sid']
+        print(sid)
+        if request.user.socket_id == sid:
+            request.user.socket_id = None
+            request.user.active = False
+            request.user.save()
+
+            return JsonResponse({
+                'msg': "Success"
+            })
+    except Exception as e:
+        print(e)
+
+    return JsonResponse({
+        'msg': "Invalid Data"
+    }, status=400)

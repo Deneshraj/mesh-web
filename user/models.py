@@ -15,6 +15,7 @@ class User(models.Model):
     profile_pic_url = models.TextField(max_length=255, default=None, null=True, blank=True)
     friends = models.ManyToManyField("self", blank=True, auto_created=False, editable=True)
     active = models.BooleanField(default=True)
+    socket_id = models.CharField(default=None, null=True, unique=True, blank=True, max_length=30)
 
     def __str__(self):
         return f"{self.username}"
